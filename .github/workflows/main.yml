@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: CD ranking
-        run: cd rankingpage
+        run: cd ./rankingpage
 
       - uses: actions/checkout@v2
 
