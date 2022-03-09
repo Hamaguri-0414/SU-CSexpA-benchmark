@@ -28,7 +28,7 @@ export default class TopPage extends React.Component{
         arr.sort(function(a,b){return(b[1] - a[1]);});
         return (
             <div class="ranking">
-                <h1>実験ⅠWebシステム高速化ランキング</h1>
+                <h1>実験A | Webシステム高速化ランキング</h1>
                 <Column />
                 { arr.map((value, index) => 
                     <Score score={value} rank={index} /> 
