@@ -10,19 +10,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: CD ranking
+        run: cd rankingpage
 
       - uses: actions/checkout@v2
-        working-directory: ./rankingpage
 
       - name: Setup Node
-        working-directory: ./rankingpage
         uses: actions/setup-node@v2
         with:
           node-version: "14"
           cache: npm
 
       - name: Cache dependencies
-        working-directory: ./rankingpage
         uses: actions/cache@v2
         with:
           path: ~/.npm
@@ -31,13 +30,10 @@ jobs:
             ${{ runner.os }}-node-
 
       - run: npm ci
-        working-directory: ./rankingpage
 
       - run: npm run build
-        working-directory: ./rankingpage
 
       - name: Deploy
-        working-directory: ./rankingpage
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
