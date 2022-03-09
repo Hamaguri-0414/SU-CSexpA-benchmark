@@ -1,3 +1,3 @@
 # exp1_ranking
 
-https://hamaguri-0414.github.io/exp1_ranking/index.html?latest
+https://ohkilab.github.io/exp1-benchmarkserver/index.html?latest
