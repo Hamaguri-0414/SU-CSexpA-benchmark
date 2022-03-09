@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/exp1_ranking/static/css/main.29713f93.css",
+    "main.js": "/exp1_ranking/static/js/main.2c0a6236.js",
+    "index.html": "/exp1_ranking/index.html",
+    "main.29713f93.css.map": "/exp1_ranking/static/css/main.29713f93.css.map",
+    "main.2c0a6236.js.map": "/exp1_ranking/static/js/main.2c0a6236.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.29713f93.css",
+    "static/js/main.2c0a6236.js"
+  ]
+}
