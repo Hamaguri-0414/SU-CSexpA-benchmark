@@ -6,11 +6,14 @@ on:
       - main
 
 jobs:
-  working-directory: ./rankingpage
   deploy:
     runs-on: ubuntu-latest
 
     steps:
+
+      - name: CD ranking
+          working-directory: ./rankingpage
+
       - uses: actions/checkout@v2
 
       - name: Setup Node
