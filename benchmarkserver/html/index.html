@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>実験1スコアサーバ</title>
+  <link rel="stylesheet" href="../../css/index.css">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script type="text/javascript" src="../script/index.js"></script>
+</head>
+<body>
+  <h1>実験1スコアサーバ</h1>
+
+  <div id="topPage">
+
+    <div>
+      URL
+      <input type="text" name="url">
+    </div>
+
+    <div>
+      <select name="groupName" size="1">
+        <option value="group1">グループ1</option>
+        <option value="group2">グループ2</option>
+        <option value="group3">グループ3</option>
+        <option value="group4">グループ4</option>
+        <option value="group5">グループ5</option>
+      </select>
+    </div>
+
+    <div>
+      <button id="startMeasureBtn" name="startMeasure">計測開始</button>
+    </div>
+
+  </div>
+
+  <div id="startedMeasure">
+    <p>計測中</p>
+  </div>
+
+
+  <div id="measureResult">
+    <p>計測結果</p>
+    <p id="MeasureTime"></p>
+    <p id="Msg"></p>
+    <p>全体の計測結果は<a href="https://www.google.com/" target="_blank">こちら</a>から見れます</p>
+
+    <button id="restartBtn">トップへ</button>
+  </div>
+
+
+</body>
+</html>
