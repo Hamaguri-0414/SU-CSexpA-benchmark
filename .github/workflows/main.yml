@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  working-directory: rankingpage
+  working-directory: ./rankingpage
   deploy:
     runs-on: ubuntu-latest
 
