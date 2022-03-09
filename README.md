@@ -1,3 +1,4 @@
-# exp1_ranking
-
-https://ohkilab.github.io/exp1-benchmarkserver/index.html
+# 実験Aベンチマークサーバ
+https://ohkilab.github.io/expA-benchmarkserver/index.html
+## 導入方法
+1. [公式サイト](https://go.dev/dl/)からgoをダウンロードする
