@@ -1,4 +1,6 @@
 # 実験Aベンチマークサーバ
+[![deploy](https://github.com/ohkilab/expA-benchmarkserver/actions/workflows/main.yml/badge.svg)](https://github.com/ohkilab/expA-benchmarkserver/actions/workflows/main.yml)
+
 https://ohkilab.github.io/expA-benchmarkserver/index.html
 ## 導入方法
 1. [公式サイト](https://go.dev/dl/)からgoをダウンロード
