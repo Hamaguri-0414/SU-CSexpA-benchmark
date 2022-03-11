@@ -1,6 +1,6 @@
 {
   "name": "exp1_ranking",
-  "homepage": "https://ohkilab.github.io/exp1-benchmarkserver",
+  "homepage": "https://ohkilab.github.io/expA-benchmarkserver",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

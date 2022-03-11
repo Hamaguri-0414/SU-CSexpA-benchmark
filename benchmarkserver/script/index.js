@@ -31,7 +31,7 @@ $(document).ready(function(){
 				console.log(data.Msg)
 				setTimeout(function(){
 					$('#startedMeasure').toggle();
-					$('#MeasureTime').text('Requests per second:' + data.Time)
+					$('#MeasureTime').text('Requests per second：' + data.Time)
 					$('#Msg').text(data.Msg)
 					$('#measureResult').toggle();
 				}, 3000);

@@ -222,6 +222,7 @@ func main() {
   // css、scriptフォルダにアクセスできるようにする
   http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css/"))))
   http.Handle("/script/", http.StripPrefix("/script/", http.FileServer(http.Dir("script/"))))
+  http.Handle("/gif/", http.StripPrefix("/gif", http.FileServer(http.Dir("gif/"))))
 
   //ルーティング設定。"/"というアクセスがきたらstaticディレクトリのコンテンツを表示させる
   http.HandleFunc("/", rootHandler)
