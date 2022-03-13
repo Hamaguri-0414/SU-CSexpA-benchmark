@@ -9,14 +9,15 @@ import (
   //"reflect" reflect.TypeOf(t)
   "benchmarkserver/pkg/ab"
   "benchmarkserver/pkg/record"
+  "github.com/rs/xid"
 )
 
 //main画面
 func rootHandler(w http.ResponseWriter, r *http.Request) {
+  //index.htmlを表示させる
 	tmpl := template.Must(template.ParseFiles("./web/html/index.html"))
 	tmpl.Execute(w, nil)
 }
-
 
 // ajax戻り値のJSON用構造体
 type Param struct {
@@ -27,29 +28,26 @@ type Param struct {
 //フォームからの入力を処理 index.jsから受け取る
 func measureHandler(w http.ResponseWriter, r *http.Request) {
 
-  //返すJSONデータ変数
+  //index.jsに返すJSONデータ変数
   var ret Param
 
-  //フォームを解析
+  //POSTデータのフォームを解析
   r.ParseForm()
 
   url := r.Form["url"][0]
   groupName := r.Form["groupName"][0]
 
-  log.Println(url)
-  log.Println(groupName)
+  //idを設定(logを対応づけるため)
+  guid := xid.New()
+  log.Println("<Info> request URL: " + url + ", GroupName: " + groupName + ", id: " + guid.String())
 
-  //エラー処理　再入力させる
-  if(len(url) == 0){
-    w.Write([]byte("URLを入力してください"))
-    return
-  }
-
-  //計算結果を戻り値に入れる
-	ret.Time = ab.Ab(url)
+  //abコマンドで負荷をかける．計測時間を返す
+	ret.Msg, ret.Time = ab.Ab(guid.String(), url)
 
   //計算結果を記録する
-  ret.Msg = record.Record(ret.Time, groupName)
+  if ret.Msg == "" {
+    ret.Msg = record.Record(guid.String(), ret.Time, groupName)
+  }
 
 	// 構造体をJSON文字列化する
 	jsonBytes, _ := json.Marshal(ret)
@@ -66,7 +64,7 @@ func main() {
   http.Handle("/script/", http.StripPrefix("/script/", http.FileServer(http.Dir("./web/script/"))))
   http.Handle("/gif/", http.StripPrefix("/gif/", http.FileServer(http.Dir("./web/gif/"))))
 
-  //ルーティング設定。"/"というアクセスがきたらstaticディレクトリのコンテンツを表示させる
+  //ルーティング設定 "/"というアクセスがきたら rootHandlerを呼び出す
   http.HandleFunc("/", rootHandler)
   http.HandleFunc("/measure", measureHandler)
 
