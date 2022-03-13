@@ -6,14 +6,46 @@ import (
   "text/template"
   "encoding/json"
 	"fmt"
-  "os"
   "time"
+  "os"
+  "os/exec"
   //"reflect"
   //reflect.TypeOf(t)
   "benchmarkserver/pkg/ab"
   "benchmarkserver/pkg/record"
   "github.com/rs/xid"
 )
+
+// ajax戻り値のJSON用構造体
+type Param struct {
+	Time string
+  Msg string
+}
+
+//ログファイルを開く，ログファイルをgithubにpushする
+func logfileOpenPush() *os.File {
+
+  //ログファイルをgithubにpushする
+  err := exec.Command("git", "add", "data/log.txt").Run()
+  if err != nil {
+    log.Println(fmt.Sprintf("<Debug> ", err))
+  }
+  err = exec.Command("git", "commit", "-m", "log.txtの更新").Run()
+  if err != nil {
+    log.Println(fmt.Sprintf("<Debug> ", err))
+  }
+  err = exec.Command("git", "push").Run()
+  if err != nil {
+    log.Println(fmt.Sprintf("<Debug> ", err))
+  }
+
+  //ログファイルを開く(logを記録するファイル)
+  logfile, err := os.OpenFile("data/log.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+  if err != nil {
+    log.Println(fmt.Sprintf("<Debug> ", err))
+  }
+  return logfile
+}
 
 //main画面
 func rootHandler(w http.ResponseWriter, r *http.Request) {
@@ -22,25 +54,15 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, nil)
 }
 
-// ajax戻り値のJSON用構造体
-type Param struct {
-	Time string
-  Msg string
-}
-
 //フォームからの入力を処理 index.jsから受け取る
 func measureHandler(w http.ResponseWriter, r *http.Request) {
 
-  //ログファイルを開く(logを記録するファイル)
-  logfile, err := os.OpenFile("log.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
-  if err != nil {
-    log.Println(fmt.Sprintf("<Debug> ", err))
-  }
+  //ログファイルを開く
+  logfile := logfileOpenPush()
   defer logfile.Close()
 
   //index.jsに返すJSONデータ変数
   var ret Param
-
   //POSTデータのフォームを解析
   r.ParseForm()
 

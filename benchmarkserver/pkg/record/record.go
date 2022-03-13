@@ -75,9 +75,8 @@ func Record(logfile *os.File, id string, times string, groupName string) string 
 }
 
 func csvPush(logfile *os.File, id string, groupName string){
-  var err error
   //git add ../exp1_ranking/public/score.csv
-  err = exec.Command("git", "add", "../public/score.csv").Run()
+  err := exec.Command("git", "add", "../public/score.csv").Run()
   if err != nil {
     log.Println(fmt.Sprintf("<Debug> ", err))
   }
