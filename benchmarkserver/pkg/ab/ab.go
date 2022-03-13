@@ -34,13 +34,19 @@ func Ab(id string, url string) (string, string) {
   randomTag := randomTags[rand.Intn(len(randomTags))]
   log.Println("<Info> id: " + id + ", selected tag: " + randomTag)
 
+  //htmlが正常か簡易的にチェック
+  if !Checkhtml(id, url, randomTag) {
+    return "URLが不明もしくはHTMLファイルが改ざんされている可能性があります", "0.00"
+  }
+
+  //選択されたタグを使用してabコマンドを実行
   //http://192.168.1.101/~username/directory/progC.php?tag=fiat
   //-c -nを変更する
   out, err := exec.Command("ab", "-c", "1", "-n", "1", url + "?tag=" + randomTag).Output()
 
   if err != nil {
     //urlが不明
-    log.Println(fmt.Sprintf("<Error> execCmd(ab -c 1 -n 1 " + url + "?tag=" + randomTag + ")" , err))
+    log.Println(fmt.Sprintf("<Error> id: " + id + " execCmd(ab -c 1 -n 1 " + url + "?tag=" + randomTag + ")" , err))
     return "URLが不明です", "0.00"
   }
 
@@ -102,4 +108,41 @@ func Ab(id string, url string) (string, string) {
 
   //文字列にして返す
   return "", strconv.FormatFloat(measureTimes, 'f', 2, 64)
+}
+
+//htmlファイルが簡易的に正常かどうか確認する
+func Checkhtml(id string, url string, tag string) bool {
+  //farm5.staticflickr.comという文字列が何個あるか確認する
+  //farm5.staticflickr.comは，Flickrサーバ上の画像URL	http://farm5.staticflickr.com/40～略～m.jpgで使われている
+
+  count := 0
+
+  //curlでhtmlを取得する
+  out, err := exec.Command("curl", url + "?tag=" + tag).Output()
+
+  if err != nil {
+    log.Println(fmt.Sprintf("<Error> id: " + id + " execCmd(curl " + url + "?tag=" + tag + ")" , err))
+    return false
+  }
+
+  html := string(out)
+
+  //"<"でファイルを分割する
+  reg := "[<]"
+  splitHtml := regexp.MustCompile(reg).Split(html, -1)
+  //分割したものから farm5.staticflickr.comが含まれているか確認する
+  for _, s := range splitHtml {
+    if strings.Contains(s, "farm5.staticflickr.com") {
+    //if strings.Contains(s, "html") {
+      count++
+    }
+  }
+
+  log.Println(fmt.Sprintf("<Info> id: " + id + ", : farm5.staticflickr.com num: ", count))
+  //farm5.staticflickr.comが一定個以上あった場合，正常そう
+  if(count > 5){
+    return true
+  }
+  return false
+
 }
