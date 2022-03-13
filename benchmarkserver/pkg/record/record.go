@@ -8,9 +8,10 @@ import(
   "log"
   "os/exec"
   "fmt"
+  "time"
 )
 
-func Record(id string, times string, groupName string) string {
+func Record(logfile *os.File, id string, times string, groupName string) string {
 
   msg := "" //返すメッセージ
   recordData := "" //書き込みデータ
@@ -63,15 +64,17 @@ func Record(id string, times string, groupName string) string {
 
   //csvファイルをgithubにpush
   if doUpdate {
-    csvPush(id, groupName)
+    csvPush(logfile, id, groupName)
   }
 
   log.Println("<Info> id: " + id + ", record msg: " + msg)
+  fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + "<Info> id: " + id + ", record msg: " + msg)
+
   return msg
 
 }
 
-func csvPush(id string, groupName string){
+func csvPush(logfile *os.File, id string, groupName string){
   var err error
   //git add ../exp1_ranking/public/score.csv
   err = exec.Command("git", "add", "../public/score.csv").Run()
@@ -88,5 +91,7 @@ func csvPush(id string, groupName string){
   }
 
   log.Println("<Info> id: " + id + ",git push new record")
+  fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + "<Info> id: " + id + ",git push new record")
+
 
 }

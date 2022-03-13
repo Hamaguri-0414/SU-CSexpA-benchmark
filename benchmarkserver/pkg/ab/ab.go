@@ -10,14 +10,14 @@ import (
   "regexp"
   "strconv"
   "fmt"
+  "os"
 )
 
 //abコマンドで負荷をかけ，計測結果を返す
-func Ab(id string, url string) (string, string) {
+func Ab(logfile *os.File, id string, url string) (string, string) {
 
   var measureTimes float64 //計測時間の合計
   measureTimes = 0
-
 
   //ランダムタグで検索
   //(改ざんチェック)
@@ -33,9 +33,10 @@ func Ab(id string, url string) (string, string) {
   rand.Seed(time.Now().UnixNano())
   randomTag := randomTags[rand.Intn(len(randomTags))]
   log.Println("<Info> id: " + id + ", selected tag: " + randomTag)
+  fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + "<Info> id: " + id + ", selected tag: " + randomTag)
 
   //htmlが正常か簡易的にチェック
-  if !Checkhtml(id, url, randomTag) {
+  if !Checkhtml(logfile, id, url, randomTag) {
     return "URLが不明もしくはHTMLファイルが改ざんされている可能性があります", "0.00"
   }
 
@@ -47,6 +48,8 @@ func Ab(id string, url string) (string, string) {
   if err != nil {
     //urlが不明
     log.Println(fmt.Sprintf("<Error> id: " + id + " execCmd(ab -c 1 -n 1 " + url + "?tag=" + randomTag + ")" , err))
+    fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + fmt.Sprintf("<Error> id: " + id + " execCmd(ab -c 1 -n 1 " + url + "?tag=" + randomTag + ")" , err))
+
     return "URLが不明です", "0.00"
   }
 
@@ -62,6 +65,7 @@ func Ab(id string, url string) (string, string) {
       ss := strings.Split(splitExecRes[i + 1], " ")
 
       log.Println("<Info> id: " + id + ", Requests per second: " + ss[len(ss) - 3])
+      fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + "<Info> id: " + id + ", Requests per second: " + ss[len(ss) - 3])
 
       //float64に変換して加算
       measureTime, _ := strconv.ParseFloat(ss[len(ss) - 3], 64)
@@ -111,7 +115,7 @@ func Ab(id string, url string) (string, string) {
 }
 
 //htmlファイルが簡易的に正常かどうか確認する
-func Checkhtml(id string, url string, tag string) bool {
+func Checkhtml(logfile *os.File, id string, url string, tag string) bool {
   //farm5.staticflickr.comという文字列が何個あるか確認する
   //farm5.staticflickr.comは，Flickrサーバ上の画像URL	http://farm5.staticflickr.com/40～略～m.jpgで使われている
 
@@ -122,6 +126,8 @@ func Checkhtml(id string, url string, tag string) bool {
 
   if err != nil {
     log.Println(fmt.Sprintf("<Error> id: " + id + " execCmd(curl " + url + "?tag=" + tag + ")" , err))
+    fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + fmt.Sprintf("<Error> id: " + id + " execCmd(curl " + url + "?tag=" + tag + ")" , err))
+
     return false
   }
 
@@ -140,10 +146,12 @@ func Checkhtml(id string, url string, tag string) bool {
 
   //farm5.staticflickr.comが一定個以上あった場合，正常そう
   if(count > 5){
-    log.Println(fmt.Sprintf("<Info> id: " + id + ", htmlchek ok: farm5.staticflickr.com num: ", count))
+    log.Println(fmt.Sprintf("<Info> id: " + id + ", htmlchek Success: farm5.staticflickr.com num: ", count))
+    fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + fmt.Sprintf("<Info> id: " + id + ", htmlchek Success: farm5.staticflickr.com num: ", count))
     return true
   }else{
-    log.Println(fmt.Sprintf("<Info> id: " + id + ", htmlchek no: farm5.staticflickr.com num: ", count))
+    log.Println(fmt.Sprintf("<Info> id: " + id + ", htmlchek Failure: farm5.staticflickr.com num: ", count))
+    fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + fmt.Sprintf("<Info> id: " + id + ", htmlchek Failure: farm5.staticflickr.com num: ", count))
     return false
   }
 }
