@@ -22,29 +22,19 @@ type Param struct {
   Msg string
 }
 
-//ログファイルを開く，ログファイルをgithubにpushする
-func logfileOpenPush() *os.File {
+func main() {
+  // webフォルダにアクセスできるようにする
+  http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("./web/css/"))))
+  http.Handle("/script/", http.StripPrefix("/script/", http.FileServer(http.Dir("./web/script/"))))
+  http.Handle("/gif/", http.StripPrefix("/gif/", http.FileServer(http.Dir("./web/gif/"))))
 
-  //ログファイルをgithubにpushする
-  err := exec.Command("git", "add", "data/log.txt").Run()
-  if err != nil {
-    log.Println(fmt.Sprintf("<Debug> ", err))
-  }
-  err = exec.Command("git", "commit", "-m", "log.txtの更新").Run()
-  if err != nil {
-    log.Println(fmt.Sprintf("<Debug> ", err))
-  }
-  err = exec.Command("git", "push").Run()
-  if err != nil {
-    log.Println(fmt.Sprintf("<Debug> ", err))
-  }
+  //ルーティング設定 "/"というアクセスがきたら rootHandlerを呼び出す
+  http.HandleFunc("/", rootHandler)
+  http.HandleFunc("/measure", measureHandler)
 
-  //ログファイルを開く(logを記録するファイル)
-  logfile, err := os.OpenFile("data/log.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
-  if err != nil {
-    log.Println(fmt.Sprintf("<Debug> ", err))
-  }
-  return logfile
+  log.Println("Listening...")
+  // 3000ポートでサーバーを立ち上げる
+  http.ListenAndServe(":3000", nil)
 }
 
 //main画面
@@ -88,17 +78,27 @@ func measureHandler(w http.ResponseWriter, r *http.Request) {
   fmt.Fprintf(w, string(jsonBytes))
 }
 
-func main() {
-  // webフォルダにアクセスできるようにする
-  http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("./web/css/"))))
-  http.Handle("/script/", http.StripPrefix("/script/", http.FileServer(http.Dir("./web/script/"))))
-  http.Handle("/gif/", http.StripPrefix("/gif/", http.FileServer(http.Dir("./web/gif/"))))
+//ログファイルを開く，ログファイルをgithubにpushする
+func logfileOpenPush() *os.File {
 
-  //ルーティング設定 "/"というアクセスがきたら rootHandlerを呼び出す
-  http.HandleFunc("/", rootHandler)
-  http.HandleFunc("/measure", measureHandler)
+  //ログファイルをgithubにpushする
+  err := exec.Command("git", "add", "data/log.txt").Run()
+  if err != nil {
+    log.Println(fmt.Sprintf("<Debug> ", err))
+  }
+  err = exec.Command("git", "commit", "-m", "log.txtの更新").Run()
+  if err != nil {
+    log.Println(fmt.Sprintf("<Debug> ", err))
+  }
+  err = exec.Command("git", "push").Run()
+  if err != nil {
+    log.Println(fmt.Sprintf("<Debug> ", err))
+  }
 
-  log.Println("Listening...")
-  // 3000ポートでサーバーを立ち上げる
-  http.ListenAndServe(":3000", nil)
+  //ログファイルを開く(logを記録するファイル)
+  logfile, err := os.OpenFile("data/log.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+  if err != nil {
+    log.Println(fmt.Sprintf("<Debug> ", err))
+  }
+  return logfile
 }
