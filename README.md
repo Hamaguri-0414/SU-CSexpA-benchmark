@@ -11,6 +11,6 @@ https://ohkilab.github.io/expA-benchmarkserver/index.html
 ## ベンチマークサーバ起動方法
 1. `$go run main.go`でベンチマークサーバを起動
    > **注意** <br>
-   main.goプログラムのディレクトリ(benchmarkserver/)をカレントディレクトリにする必要があります<br>
-   `$cd benchmarkserver`でmaing.goをカレントディレクトリにする
+   main.goプログラムのディレクトリ(benchmarkserver/cmd)をカレントディレクトリにする必要があります<br>
+   `$cd benchmarkserver/cmd`でmaing.goをカレントディレクトリにする
 2. `http://localhost:3000`または`http://<ipアドレス>:3000`でアクセス
