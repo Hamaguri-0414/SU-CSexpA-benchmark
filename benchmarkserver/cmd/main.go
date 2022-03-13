@@ -21,7 +21,7 @@ import (
 
 //main画面
 func rootHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("./html/index.html"))
+	tmpl := template.Must(template.ParseFiles("../web/html/index.html"))
 	tmpl.Execute(w, nil)
 }
 
@@ -79,7 +79,7 @@ func ab(url string) string {
 
   //ランダムタグで検索
   //改ざんチェック
-  file, _ = ioutil.ReadFile("./data/randomtag.txt")
+  file, _ = ioutil.ReadFile("../data/randomtag.txt")
   randomTags := strings.Split(string(file), "\n")
   rand.Seed(time.Now().UnixNano())
   randomTag := randomTags[rand.Intn(len(randomTags))]
@@ -109,7 +109,7 @@ func ab(url string) string {
   }
 
   //複数タグで検索し，計測
-  file, _ = ioutil.ReadFile("./data/searchtag.txt")
+  file, _ = ioutil.ReadFile("../data/searchtag.txt")
   tags := strings.Split(string(file), "\n")
   for i, s := range tags {
     //検索タグ数（本番は30とかにしたい）
@@ -151,7 +151,7 @@ func record(times string, groupName string) string {
 
   //data.csvに記録する
   //data.csvを読み込む
-  csvFile, _ := os.Open("../public/score.csv")
+  csvFile, _ := os.Open("../../public/score.csv")
   reader := csv.NewReader(csvFile)
 
   //groupNameの一致を探し，数値を比較する
@@ -180,7 +180,7 @@ func record(times string, groupName string) string {
   }
   csvFile.Close()
   //ファイル書き込み
-  file, _ := os.Create("../public/score.csv")
+  file, _ := os.Create("../../public/score.csv")
   defer file.Close()
   _, err := file.WriteString(recordData)
   if err != nil {
@@ -201,7 +201,7 @@ func record(times string, groupName string) string {
 func csvPush(groupName string){
   var err error
   //git add ../exp1_ranking/public/score.csv
-  err = exec.Command("git", "add", "../public/score.csv").Run()
+  err = exec.Command("git", "add", "../../public/score.csv").Run()
   if err != nil {
     log.Println(err)
   }
@@ -219,10 +219,10 @@ func csvPush(groupName string){
 
 
 func main() {
-  // css、scriptフォルダにアクセスできるようにする
-  http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css/"))))
-  http.Handle("/script/", http.StripPrefix("/script/", http.FileServer(http.Dir("script/"))))
-  http.Handle("/gif/", http.StripPrefix("/gif", http.FileServer(http.Dir("gif/"))))
+  // webフォルダにアクセスできるようにする
+  http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("../web/css/"))))
+  http.Handle("/script/", http.StripPrefix("/script/", http.FileServer(http.Dir("../web/script/"))))
+  http.Handle("/gif/", http.StripPrefix("/gif/", http.FileServer(http.Dir("../web/gif/"))))
 
   //ルーティング設定。"/"というアクセスがきたらstaticディレクトリのコンテンツを表示させる
   http.HandleFunc("/", rootHandler)
