@@ -1,0 +1,3 @@
+2022/03/13 20:10:18<Info> request URL: http://localhost:3000/, GroupName: group1, id: c8mt26iciaej3i09o6ug
+2022/03/13 20:10:18<Info> id: c8mt26iciaej3i09o6ug, selected tag: dog
+2022/03/13 20:10:18<Info> id: c8mt26iciaej3i09o6ug, htmlchek Failure: farm5.staticflickr.com num: %!(EXTRA int=0)
