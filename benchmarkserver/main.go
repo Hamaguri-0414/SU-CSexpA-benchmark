@@ -51,12 +51,9 @@ func measureHandler(w http.ResponseWriter, r *http.Request) {
 
 	// 構造体をJSON文字列化する
 	jsonBytes, _ := json.Marshal(ret)
-  // 返す
+  // index.jsに返す
   fmt.Fprintf(w, string(jsonBytes))
-
-
 }
-
 
 func main() {
   // webフォルダにアクセスできるようにする

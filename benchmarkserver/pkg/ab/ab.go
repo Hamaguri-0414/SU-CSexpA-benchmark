@@ -138,11 +138,12 @@ func Checkhtml(id string, url string, tag string) bool {
     }
   }
 
-  log.Println(fmt.Sprintf("<Info> id: " + id + ", : farm5.staticflickr.com num: ", count))
   //farm5.staticflickr.comが一定個以上あった場合，正常そう
   if(count > 5){
+    log.Println(fmt.Sprintf("<Info> id: " + id + ", htmlchek ok: farm5.staticflickr.com num: ", count))
     return true
+  }else{
+    log.Println(fmt.Sprintf("<Info> id: " + id + ", htmlchek no: farm5.staticflickr.com num: ", count))
+    return false
   }
-  return false
-
 }
