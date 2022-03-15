@@ -13,3 +13,7 @@
 2022/03/13 20:18:38<Info> request URL: http://localhost:3000/, GroupName: group1, id: c8mt63iciaej54qp0ah0
 2022/03/13 20:18:38<Info> id: c8mt63iciaej54qp0ah0, selected tag: 
 2022/03/13 20:18:39<Info> id: c8mt63iciaej54qp0ah0, htmlchek Failure: farm5.staticflickr.com num: %!(EXTRA int=0)
+2022/03/15 10:26:12<Info> request URL: http://localhost:3000/, GroupName: group1, id: c8numd2ciaejh26rcak0
+2022/03/15 10:26:12<Info> id: c8numd2ciaejh26rcak0, selected tag: 
+2022/03/15 10:26:12<Info> id: c8numd2ciaejh26rcak0, Requests per second: 1098.90
+2022/03/15 10:26:12<Info> id: c8numd2ciaejh26rcak0, htmlchek Failure: .staticflickr.com num: %!(EXTRA int=0)
