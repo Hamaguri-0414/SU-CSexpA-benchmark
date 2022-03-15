@@ -17,3 +17,7 @@
 2022/03/15 10:26:12<Info> id: c8numd2ciaejh26rcak0, selected tag: 
 2022/03/15 10:26:12<Info> id: c8numd2ciaejh26rcak0, Requests per second: 1098.90
 2022/03/15 10:26:12<Info> id: c8numd2ciaejh26rcak0, htmlchek Failure: .staticflickr.com num: %!(EXTRA int=0)
+2022/03/15 11:33:04<Info> request URL: http://localhost:3000/, GroupName: group1, id: c8nvlo2ciaejjante590
+2022/03/15 11:33:04<Info> id: c8nvlo2ciaejjante590, selected tag: beer
+2022/03/15 11:33:04<Info> id: c8nvlo2ciaejjante590, Requests per second: 805.15
+2022/03/15 11:33:04<Info> id: c8nvlo2ciaejjante590, htmlchek Failure: .staticflickr.com num: %!(EXTRA int=0)
