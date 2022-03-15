@@ -35,11 +35,6 @@ func Ab(logfile *os.File, id string, url string) (string, string) {
   log.Println("<Info> id: " + id + ", selected tag: " + randomTag)
   fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + "<Info> id: " + id + ", selected tag: " + randomTag)
 
-  //htmlが正常か簡易的にチェック
-  if !Checkhtml(logfile, id, url, randomTag) {
-    return "URLが不明もしくはHTMLファイルが改ざんされている可能性があります", "0.00"
-  }
-
   //選択されたタグを使用してabコマンドを実行
   //http://192.168.1.101/~username/directory/progC.php?tag=fiat
   //-c -nを変更する
@@ -74,7 +69,11 @@ func Ab(logfile *os.File, id string, url string) (string, string) {
     }
   }
 
-  //curlでhtmlを取得し，<img>の数が100個あるか数える
+  //curlでhtmlを取得し，imgタグ内の.staticflickr.comの数が100個あるか数える
+  //htmlが正常か簡易的にチェック
+  if !Checkhtml(logfile, id, url, randomTag) {
+    return "HTMLファイルが改ざんされている可能性があります", "0.00"
+  }
 
   /*
   //複数タグで検索し，計測
@@ -116,8 +115,8 @@ func Ab(logfile *os.File, id string, url string) (string, string) {
 
 //htmlファイルが簡易的に正常かどうか確認する
 func Checkhtml(logfile *os.File, id string, url string, tag string) bool {
-  //farm5.staticflickr.comという文字列が何個あるか確認する
-  //farm5.staticflickr.comは，Flickrサーバ上の画像URL	http://farm5.staticflickr.com/40～略～m.jpgで使われている
+  //.staticflickr.comという文字列が何個あるか確認する
+  //.staticflickr.comは，Flickrサーバ上の画像URL	http://farm5.staticflickr.com/40～略～m.jpgで使われている
 
   count := 0
 
@@ -127,7 +126,6 @@ func Checkhtml(logfile *os.File, id string, url string, tag string) bool {
   if err != nil {
     log.Println(fmt.Sprintf("<Error> id: " + id + " execCmd(curl " + url + "?tag=" + tag + ")" , err))
     fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + fmt.Sprintf("<Error> id: " + id + " execCmd(curl " + url + "?tag=" + tag + ")" , err))
-
     return false
   }
 
@@ -136,22 +134,22 @@ func Checkhtml(logfile *os.File, id string, url string, tag string) bool {
   //"<"でファイルを分割する
   reg := "[<]"
   splitHtml := regexp.MustCompile(reg).Split(html, -1)
-  //分割したものから farm5.staticflickr.comが含まれているか確認する
+  //分割したものから .staticflickr.comが含まれているか確認する
   for _, s := range splitHtml {
-    if strings.Contains(s, "farm5.staticflickr.com") {
+    if strings.Contains(s, ".staticflickr.com") {
     //if strings.Contains(s, "html") {
       count++
     }
   }
 
-  //farm5.staticflickr.comが一定個以上あった場合，正常そう
+  //.staticflickr.comが一定個以上あった場合，正常そう
   if(count > 5){
-    log.Println(fmt.Sprintf("<Info> id: " + id + ", htmlchek Success: farm5.staticflickr.com num: ", count))
-    fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + fmt.Sprintf("<Info> id: " + id + ", htmlchek Success: farm5.staticflickr.com num: ", count))
+    log.Println(fmt.Sprintf("<Info> id: " + id + ", htmlchek Success: .staticflickr.com num: ", count))
+    fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + fmt.Sprintf("<Info> id: " + id + ", htmlchek Success: .staticflickr.com num: ", count))
     return true
   }else{
-    log.Println(fmt.Sprintf("<Info> id: " + id + ", htmlchek Failure: farm5.staticflickr.com num: ", count))
-    fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + fmt.Sprintf("<Info> id: " + id + ", htmlchek Failure: farm5.staticflickr.com num: ", count))
+    log.Println(fmt.Sprintf("<Info> id: " + id + ", htmlchek Failure: .staticflickr.com num: ", count))
+    fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + fmt.Sprintf("<Info> id: " + id + ", htmlchek Failure: .staticflickr.com num: ", count))
     return false
   }
 }
