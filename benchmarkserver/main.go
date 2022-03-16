@@ -10,8 +10,8 @@ import (
   "os"
   //"reflect"
   //reflect.TypeOf(t)
-  "benchmarkserver/pkg/ab"
-  "benchmarkserver/pkg/record"
+  "benchmarkserver/internal/ab"
+  "benchmarkserver/internal/record"
   "github.com/rs/xid"
 )
 
