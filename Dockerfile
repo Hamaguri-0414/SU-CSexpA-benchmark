@@ -24,8 +24,8 @@ RUN chmod 600 /root/.ssh*
 WORKDIR /go/src
 #githubからclone
 RUN git clone git@github.com:ohkilab/SU-CSexpA-benchmark.git
-RUN git config --global user.email "aiba@sec.inf.shizuoka.ac.jp"
-RUN git config --global user.name "expA-benchmark-container"
+RUN git config --global user.email "hoge@hoge.co.jp"
+RUN git config --global user.name "hoge"
 
 #ベンチマークサーバを起動
 #CMD ["go","run","main.go"]
