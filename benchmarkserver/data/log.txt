@@ -26,3 +26,7 @@
 2022/03/16 16:22:33<Info> id: c8op0eaciael3kmtc2m0, selected tag: fiat
 2022/03/16 16:22:33<Info> id: c8op0eaciael3kmtc2m0, Requests per second: 1070.66
 2022/03/16 16:22:33<Info> id: c8op0eaciael3kmtc2m0, htmlchek Failure: .staticflickr.com num: %!(EXTRA int=0)
+2022/03/16 16:23:38<Info> request URL: http://localhost:3000/, GroupName: group1, id: c8op0uiciael3uoj2c00
+2022/03/16 16:23:38<Info> id: c8op0uiciael3uoj2c00, selected tag: fiat
+2022/03/16 16:23:38<Info> id: c8op0uiciael3uoj2c00, Requests per second: 765.70
+2022/03/16 16:23:38<Info> id: c8op0uiciael3uoj2c00, htmlchek Failure: .staticflickr.com num: %!(EXTRA int=0)
