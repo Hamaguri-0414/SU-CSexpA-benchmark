@@ -9,6 +9,7 @@ import (
   "time"
   "os"
   "os/exec"
+  "regexp"
   //"reflect"
   //reflect.TypeOf(t)
   "benchmarkserver/pkg/ab"
@@ -80,20 +81,6 @@ func measureHandler(w http.ResponseWriter, r *http.Request) {
 
 //ログファイルを開く，ログファイルをgithubにpushする
 func logfileOpenPush() *os.File {
-
-  //ログファイルをgithubにpushする
-  err := exec.Command("git", "add", "data/log.txt").Run()
-  if err != nil {
-    log.Println(fmt.Sprintf("<Debug> ", err))
-  }
-  err = exec.Command("git", "commit", "-m", "log.txtの更新").Run()
-  if err != nil {
-    log.Println(fmt.Sprintf("<Debug> ", err))
-  }
-  err = exec.Command("git", "push").Run()
-  if err != nil {
-    log.Println(fmt.Sprintf("<Debug> ", err))
-  }
 
   //ログファイルを開く(logを記録するファイル)
   logfile, err := os.OpenFile("data/log.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
