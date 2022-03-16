@@ -13,6 +13,7 @@ rankingpage/build
 
 # misc
 .DS_Store
+benchmarkserver/data/log.txt
 rankingpage/.env.local
 rankingpage/.env.development.local
 rankingpage/.env.test.local
