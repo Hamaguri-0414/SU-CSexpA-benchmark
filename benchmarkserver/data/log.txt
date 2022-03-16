@@ -1,5 +1,0 @@
-2022/03/16 16:33:33<Info> request URL: http://localhost:3000/, GroupName: group1, id: c8op5jaciael5hrq54i0
-2022/03/16 16:33:33<Info> id: c8op5jaciael5hrq54i0, selected tag: dog
-2022/03/16 16:33:33<Info> id: c8op5jaciael5hrq54i0, Requests per second: 739.64
-2022/03/16 16:33:33<Info> id: c8op5jaciael5hrq54i0, htmlchek Failure: .staticflickr.com num: %!(EXTRA int=0)
-2022/03/16 16:33:33<Info> id: c8op5jaciael5hrq54i0, htmlchek Failure: .staticflickr.com num: %!(EXTRA int=0)
