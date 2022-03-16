@@ -1,32 +1,4 @@
-2022/03/13 20:10:18<Info> request URL: http://localhost:3000/, GroupName: group1, id: c8mt26iciaej3i09o6ug
-2022/03/13 20:10:18<Info> id: c8mt26iciaej3i09o6ug, selected tag: dog
-2022/03/13 20:10:18<Info> id: c8mt26iciaej3i09o6ug, htmlchek Failure: farm5.staticflickr.com num: %!(EXTRA int=0)
-2022/03/13 20:12:52<Info> request URL: http://localhost:3000/, GroupName: group1, id: c8mt3d2ciaej425jrutg
-2022/03/13 20:12:52<Info> id: c8mt3d2ciaej425jrutg, selected tag:
-2022/03/13 20:12:53<Info> id: c8mt3d2ciaej425jrutg, htmlchek Failure: farm5.staticflickr.com num: %!(EXTRA int=0)
-2022/03/13 20:15:51<Info> request URL: http://localhost:3000/, GroupName: group1, id: c8mt4pqciaej4krtq870
-2022/03/13 20:15:52<Info> id: c8mt4pqciaej4krtq870, selected tag:
-2022/03/13 20:15:52<Info> id: c8mt4pqciaej4krtq870, htmlchek Failure: farm5.staticflickr.com num: %!(EXTRA int=0)
-2022/03/13 20:16:35<Info> request URL: http://localhost:3000/, GroupName: group1, id: c8mt54qciaej4krtq87g
-2022/03/13 20:16:35<Info> id: c8mt54qciaej4krtq87g, selected tag: fiat
-2022/03/13 20:16:35<Info> id: c8mt54qciaej4krtq87g, htmlchek Failure: farm5.staticflickr.com num: %!(EXTRA int=0)
-2022/03/13 20:18:38<Info> request URL: http://localhost:3000/, GroupName: group1, id: c8mt63iciaej54qp0ah0
-2022/03/13 20:18:38<Info> id: c8mt63iciaej54qp0ah0, selected tag:
-2022/03/13 20:18:39<Info> id: c8mt63iciaej54qp0ah0, htmlchek Failure: farm5.staticflickr.com num: %!(EXTRA int=0)
-2022/03/15 10:26:12<Info> request URL: http://localhost:3000/, GroupName: group1, id: c8numd2ciaejh26rcak0
-2022/03/15 10:26:12<Info> id: c8numd2ciaejh26rcak0, selected tag: 
-2022/03/15 10:26:12<Info> id: c8numd2ciaejh26rcak0, Requests per second: 1098.90
-2022/03/15 10:26:12<Info> id: c8numd2ciaejh26rcak0, htmlchek Failure: .staticflickr.com num: %!(EXTRA int=0)
-2022/03/16 05:56:55<Info> request URL: http://localhost:3000/, GroupName: group1, id: c8ono9t4dsoc7uneuhkg
-2022/03/16 05:56:55<Info> id: c8ono9t4dsoc7uneuhkg, selected tag: beer
-2022/03/16 05:56:55<Info> id: c8ono9t4dsoc7uneuhkg, Requests per second: 677.05
-2022/03/16 05:56:55<Info> id: c8ono9t4dsoc7uneuhkg, htmlchek Failure: .staticflickr.com num: %!(EXTRA int=0)
-2022/03/16 05:56:55<Info> request URL: http://localhost:3000/, GroupName: group1, id: c8ono9t4dsoc7uneuhkg
-2022/03/16 16:22:33<Info> request URL: http://localhost:3000/, GroupName: group1, id: c8op0eaciael3kmtc2m0
-2022/03/16 16:22:33<Info> id: c8op0eaciael3kmtc2m0, selected tag: fiat
-2022/03/16 16:22:33<Info> id: c8op0eaciael3kmtc2m0, Requests per second: 1070.66
-2022/03/16 16:22:33<Info> id: c8op0eaciael3kmtc2m0, htmlchek Failure: .staticflickr.com num: %!(EXTRA int=0)
-2022/03/16 16:23:38<Info> request URL: http://localhost:3000/, GroupName: group1, id: c8op0uiciael3uoj2c00
-2022/03/16 16:23:38<Info> id: c8op0uiciael3uoj2c00, selected tag: fiat
-2022/03/16 16:23:38<Info> id: c8op0uiciael3uoj2c00, Requests per second: 765.70
-2022/03/16 16:23:38<Info> id: c8op0uiciael3uoj2c00, htmlchek Failure: .staticflickr.com num: %!(EXTRA int=0)
+2022/03/16 16:33:33<Info> request URL: http://localhost:3000/, GroupName: group1, id: c8op5jaciael5hrq54i0
+2022/03/16 16:33:33<Info> id: c8op5jaciael5hrq54i0, selected tag: dog
+2022/03/16 16:33:33<Info> id: c8op5jaciael5hrq54i0, Requests per second: 739.64
+2022/03/16 16:33:33<Info> id: c8op5jaciael5hrq54i0, htmlchek Failure: .staticflickr.com num: %!(EXTRA int=0)

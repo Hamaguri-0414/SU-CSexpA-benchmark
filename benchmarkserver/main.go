@@ -8,8 +8,6 @@ import (
 	"fmt"
   "time"
   "os"
-  "os/exec"
-  "regexp"
   //"reflect"
   //reflect.TypeOf(t)
   "benchmarkserver/pkg/ab"
