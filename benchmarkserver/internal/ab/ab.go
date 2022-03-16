@@ -31,7 +31,7 @@ func Ab(logfile *os.File, id string, url string) (string, string) {
   //randomtag.txtを改行で配列に分割し，分割した配列の中からランダムでひとつを選択する
   randomTags := strings.Split(string(file), "\n")
   rand.Seed(time.Now().UnixNano())
-  randomTag := randomTags[rand.Intn(len(randomTags))]
+  randomTag := randomTags[rand.Intn(len(randomTags) - 1)]
   log.Println("<Info> id: " + id + ", selected tag: " + randomTag)
   fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + "<Info> id: " + id + ", selected tag: " + randomTag)
 
@@ -45,7 +45,7 @@ func Ab(logfile *os.File, id string, url string) (string, string) {
     log.Println(fmt.Sprintf("<Error> id: " + id + " execCmd(ab -c 1 -n 1 " + url + "?tag=" + randomTag + ")" , err))
     fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + fmt.Sprintf("<Error> id: " + id + " execCmd(ab -c 1 -n 1 " + url + "?tag=" + randomTag + ")" , err))
 
-    return "URLが不明です", "0.00"
+    return "URLが不明またはタイムアウトしました", "0.00"
   }
 
   execRes := string(out)
