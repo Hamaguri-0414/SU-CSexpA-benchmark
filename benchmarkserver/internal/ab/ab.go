@@ -134,22 +134,21 @@ func Checkhtml(logfile *os.File, id string, url string, tag string) bool {
   //"<"でファイルを分割する
   reg := "[<]"
   splitHtml := regexp.MustCompile(reg).Split(html, -1)
-  //分割したものから .staticflickr.comが含まれているか確認する
+  //分割したものから .static.flickr.comが含まれているか確認する
   for _, s := range splitHtml {
-    if strings.Contains(s, ".staticflickr.com") {
-    //if strings.Contains(s, "html") {
+    if strings.Contains(s, ".static.flickr.com") {
       count++
     }
   }
 
   //.staticflickr.comが一定個以上あった場合，正常そう
   if(count > 5){
-    log.Println(fmt.Sprintf("<Info> id: " + id + ", htmlchek Success: .staticflickr.com num: ", count))
-    fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + fmt.Sprintf("<Info> id: " + id + ", htmlchek Success: .staticflickr.com num: ", count))
+    log.Println(fmt.Sprintf("<Info> id: " + id + ", htmlchek Success: .static.flickr.com num: ", count))
+    fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + fmt.Sprintf("<Info> id: " + id + ", htmlchek Success: .static.flickr.com num: ", count))
     return true
   }else{
-    log.Println(fmt.Sprintf("<Info> id: " + id + ", htmlchek Failure: .staticflickr.com num: ", count))
-    fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + fmt.Sprintf("<Info> id: " + id + ", htmlchek Failure: .staticflickr.com num: ", count))
+    log.Println(fmt.Sprintf("<Info> id: " + id + ", htmlchek Failure: .static.flickr.com num: ", count))
+    fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + fmt.Sprintf("<Info> id: " + id + ", htmlchek Failure: .static.flickr.com num: ", count))
     return false
   }
 }
