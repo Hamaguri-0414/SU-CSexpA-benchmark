@@ -20,7 +20,7 @@ RUN apk --update add tzdata && \
 ADD .ssh /root/.ssh
 RUN chmod 600 /root/.ssh*
 
-#ワーキングディレクトリの設定
+#githubからクローン
 WORKDIR /go/src
 #githubからclone
 RUN git clone git@github.com:ohkilab/SU-CSexpA-benchmark.git
@@ -28,4 +28,5 @@ RUN git config --global user.email "hoge@hoge.co.jp"
 RUN git config --global user.name "hoge"
 
 #ベンチマークサーバを起動
-#CMD ["go","run","main.go"]
+WORKDIR /go/src/SU-CSexpA-benchmark/benchmarkserver
+CMD ["go","run","main.go"]
