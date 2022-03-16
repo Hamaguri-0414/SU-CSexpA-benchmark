@@ -23,7 +23,6 @@ func Ab(logfile *os.File, id string, url string) (string, string) {
   //(改ざんチェック)
   //タグファイル（randomtag.txt）からランダムにタグを抽出し，そのタグでabコマンドを実行する
   file, err := ioutil.ReadFile("./data/randomtag.txt")
-
   if err != nil {
     log.Println("<Debug> can't open ./data/randomtag.txt : ", err)
   }
@@ -75,39 +74,48 @@ func Ab(logfile *os.File, id string, url string) (string, string) {
     return "HTMLファイルが改ざんされている可能性があります", "0.00"
   }
 
-  /*
-  //複数タグで検索し，計測
-  file, _ = ioutil.ReadFile("./data/searchtag.txt")
+  //文字列にして返す
+  return "", strconv.FormatFloat(measureTimes, 'f', 2, 64)
+}
+
+//検索時間がどんなものかをチェックする関数
+func Abtest(logfile *os.File, id string, url string) (string, string) {
+  var measureTimes float64 //計測時間の合計
+  measureTimes = 0
+
+  //複数タグで検索し，計測(test)
+  file, _ := ioutil.ReadFile("./data/searchtag.txt")
 
   tags := strings.Split(string(file), "\n")
-  for i, s := range tags {
-    //検索タグ数（本番は30とかにしたい）
-    if i == 2 || i > len(tags){
+  for i, s := range tags{
+    if i >= len(tags) - 1{
       break
     }
-    log.Println(s)
+
+    //log.Println("<Info> id: " + id + ", selected tag: " + s)
     //-c -nを変更する
-    out, _ = exec.Command("ab", "-c", "1", "-n", "1", url + "?tag=" + s).Output()
-    execRes = string(out)
+    out, _ := exec.Command("ab", "-c", "1", "-n", "1", url + "?tag=" + s).Output()
+    execRes := string(out)
     //abコマンドの結果を:と改行で分割する
-    reg = "[:\n]"
-    splitExecRes = regexp.MustCompile(reg).Split(execRes, -1)
+    reg := "[:\n]"
+    splitExecRes := regexp.MustCompile(reg).Split(execRes, -1)
     //分割したものからRequests per secondを探す
     //次にあるのが計測値なので，j+1して指定，空白で分割し，数値のみ取り出す
     //例：Requests per second:    720.46 [#/sec] (mean)
-    for j, s := range splitExecRes {
-      if s == "Requests per second" {
-        ss := strings.Split(splitExecRes[j + 1], " ")
-        log.Println(ss[len(ss) - 3])
+    for j, ss := range splitExecRes {
+      if ss == "Requests per second" {
+        sss := strings.Split(splitExecRes[j + 1], " ")
+        //log.Println("<Info> id: " + id + ", Requests per second: " + ss[len(ss) - 3])
         //float64に変換して加算
-        measureTime, _ := strconv.ParseFloat(ss[len(ss) - 3], 64)
+        measureTime, _ := strconv.ParseFloat(sss[len(sss) - 3], 64)
+        fmt.Printf("%s,%.2f\n",s, measureTime)
         measureTimes += measureTime
         break
       }
     }
-  }
 
-  */
+    //Checkhtml(logfile, id, url, s)
+  }
 
   //文字列にして返す
   return "", strconv.FormatFloat(measureTimes, 'f', 2, 64)
