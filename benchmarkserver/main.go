@@ -33,27 +33,36 @@ func main() {
 
   log.Println("Listening...")
   // 3000ポートでサーバーを立ち上げる
-  http.ListenAndServe(":3000", nil)
+  err := http.ListenAndServe(":3000", nil)
+  if err != nil {
+    log.Println("<Debug> http.LinstenAndServe(:3000) : ", err)
+  }
 }
 
 //main画面
 func rootHandler(w http.ResponseWriter, r *http.Request) {
   //index.htmlを表示させる
 	tmpl := template.Must(template.ParseFiles("./web/html/index.html"))
-	tmpl.Execute(w, nil)
+	err := tmpl.Execute(w, nil)
+  if err != nil {
+    log.Println("<Debug> can't open ./web/html/index.htm : ", err)
+  }
 }
 
 //フォームからの入力を処理 index.jsから受け取る
 func measureHandler(w http.ResponseWriter, r *http.Request) {
 
   //ログファイルを開く
-  logfile := logfileOpenPush()
+  logfile := logfileOpen()
   defer logfile.Close()
 
   //index.jsに返すJSONデータ変数
   var ret Param
   //POSTデータのフォームを解析
-  r.ParseForm()
+  err := r.ParseForm()
+  if err != nil {
+    log.Println("<Debug> r.ParseForm : ", err)
+  }
 
   url := r.Form["url"][0]
   groupName := r.Form["groupName"][0]
@@ -74,16 +83,16 @@ func measureHandler(w http.ResponseWriter, r *http.Request) {
 	// 構造体をJSON文字列化する
 	jsonBytes, _ := json.Marshal(ret)
   // index.jsに返す
-  fmt.Fprintf(w, string(jsonBytes))
+  fmt.Fprint(w, string(jsonBytes))
 }
 
 //ログファイルを開く，ログファイルをgithubにpushする
-func logfileOpenPush() *os.File {
+func logfileOpen() *os.File {
 
   //ログファイルを開く(logを記録するファイル)
   logfile, err := os.OpenFile("data/log.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
   if err != nil {
-    log.Println(fmt.Sprintf("<Debug> ", err))
+    log.Println("<Debug> can't open data/log.txt : ", err)
   }
   return logfile
 }

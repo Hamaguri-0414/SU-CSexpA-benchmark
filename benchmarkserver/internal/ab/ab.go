@@ -25,7 +25,7 @@ func Ab(logfile *os.File, id string, url string) (string, string) {
   file, err := ioutil.ReadFile("./data/randomtag.txt")
 
   if err != nil {
-    log.Println(fmt.Sprintf("<Debug> ", err))
+    log.Println("<Debug> can't open ./data/randomtag.txt : ", err)
   }
 
   //randomtag.txtを改行で配列に分割し，分割した配列の中からランダムでひとつを選択する
@@ -141,8 +141,8 @@ func Checkhtml(logfile *os.File, id string, url string, tag string) bool {
     }
   }
 
-  //.staticflickr.comが一定個以上あった場合，正常そう
-  if(count > 5){
+  //.static.flickr.comが100個あった場合，正常そう
+  if(count == 100){
     log.Println(fmt.Sprintf("<Info> id: " + id + ", htmlchek Success: .static.flickr.com num: ", count))
     fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + fmt.Sprintf("<Info> id: " + id + ", htmlchek Success: .static.flickr.com num: ", count))
     return true

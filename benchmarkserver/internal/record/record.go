@@ -21,7 +21,7 @@ func Record(logfile *os.File, id string, times string, groupName string) string 
   //data.csvを読み込む
   csvFile, err := os.Open("../public/score.csv")
   if err != nil {
-    log.Println(fmt.Sprintf("<Debug> ", err))
+    log.Println("<Debug> can't open ../public/score.csv : ", err)
   }
   reader := csv.NewReader(csvFile)
 
@@ -54,12 +54,12 @@ func Record(logfile *os.File, id string, times string, groupName string) string 
   //ファイル書き込み
   file, err := os.Create("../public/score.csv")
   if err != nil{
-    log.Println(fmt.Sprintf("<Debug> ", err))
+    log.Println("<Debug> can't open or create ../public/score.csv : ", err)
   }
   defer file.Close()
   _, err = file.WriteString(recordData)
   if err != nil {
-    log.Println(fmt.Sprintf("<Debug> ", err))
+    log.Println("<Debug> cant' write ../public/score.csv : ", err)
   }
 
   //csvファイルをgithubにpush
@@ -78,15 +78,15 @@ func csvPush(logfile *os.File, id string, groupName string){
   //git add ../exp1_ranking/public/score.csv
   err := exec.Command("git", "add", "../public/score.csv").Run()
   if err != nil {
-    log.Println(fmt.Sprintf("<Debug> ", err))
+    log.Println("<Debug> can't execute git add ../public/score.csv : ", err)
   }
   err = exec.Command("git", "commit", "-m", groupName + "の記録更新").Run()
   if err != nil {
-    log.Println(fmt.Sprintf("<Debug> ", err))
+    log.Println("<Debug> can't execute git commit -m \"grouphogeの記録更新\" : ", err)
   }
   err = exec.Command("git", "push").Run()
   if err != nil {
-    log.Println(fmt.Sprintf("<Debug> ", err))
+    log.Println("<Debug> can't execute git push : ", err)
   }
 
   log.Println("<Info> id: " + id + ",git push new record")
