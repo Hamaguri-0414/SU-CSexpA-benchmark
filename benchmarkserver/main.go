@@ -73,8 +73,8 @@ func measureHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05")+"<Info> request URL: "+url+", GroupName: "+groupName+", id: "+guid.String())
 
 	//abコマンドで負荷をかける．計測時間を返す
-	ret.Msg, ret.Time = ab.Ab(logfile, guid.String(), url)
-	//ret.Msg, ret.Time = ab.Abtest(logfile, guid.String(), url)
+	//ret.Msg, ret.Time = ab.Ab(logfile, guid.String(), url)
+	ret.Msg, ret.Time = ab.Abtest(logfile, guid.String(), url)
 
 	//計算結果を記録する
 	if ret.Msg == "" {
