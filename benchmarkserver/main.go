@@ -80,8 +80,7 @@ func measureHandler(w http.ResponseWriter, r *http.Request) {
 	ret.Id = guid.String()
 
 	//abコマンドで負荷をかける．計測時間を返す
-	//ret.Msg, ret.Time = ab.Ab(logfile, guid.String(), url)
-	ret.Msg, ret.Time = ab.Abtest(logfile, guid.String(), url)
+	ret.Msg, ret.Time = ab.Ab(logfile, guid.String(), url)
 
 	//これまでの最高値を取り出す
 	if ret.Msg == "" {
