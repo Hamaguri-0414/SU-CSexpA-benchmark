@@ -1,8 +1,13 @@
+var groupName = "";
+var time = "";
+var id = "";
+
 //HTMLが読み込まれたとき
 $(document).ready(function(){
   //計測開始ボタンクリックアクション
 	$('#startMeasureBtn').on('click', function(){
 
+		console.log("startMeasureAction")
     //inputタグの入力
     console.log($('input[name="url"]').val())
     //selectタグの入力
@@ -25,25 +30,63 @@ $(document).ready(function(){
       //サーバから受け取るデータ(data)の形式
 			dataType: "json",
       //受け取り成功時
-			success: function(data){
+			success: function(measureResultData){
 				//計測中を非表示にし，計測結果を表示する
-				console.log(data.Time)
-				console.log(data.Msg)
+				console.log("measureResult")
+				console.log(measureResultData.Time)
+				console.log(measureResultData.Msg)
+				console.log(measureResultData.IsNewRecord)
+				console.log(measureResultData.Id)
+
+				if(measureResultData.IsNewRecord){
+					//recordBtnActionで使用
+					groupName = $('[name="groupName"] option:selected').val();
+					time = measureResultData.Time;
+					id = measureResultData.Id;
+
+					//buttonタグ作成
+					$('#measureResult').append('<button class="startBtn" id="recordBtn">計測結果を記録する</button>')
+				}
+
+
+				//計測結果を表示する
+				$('#MeasureTime').text('Requests per second：' + measureResultData.Time)
+				$('#Msg').text(measureResultData.Msg)
+
+
 				setTimeout(function(){
+					//画面表示
 					$('#startedMeasure').toggle();
-					$('#MeasureTime').text('Requests per second：' + data.Time)
-					$('#Msg').text(data.Msg)
 					$('#measureResult').toggle();
 				}, 3000);
-
 			}
 		});
 	});
 
 	//記録ボタンクリックアクション
-	$('#recordBtn').on('click', function(){
-		alert('記録しました')
-		location.reload();
+
+	$(document).on('click', '#recordBtn', function(){
+
+		console.log("recordBtnAction")
+
+		//ajax urlとgroupNameを/measureに送る
+		$.ajax({
+			type: "POST",
+      //送信先URL
+			url: "record",
+			data: {
+        //送信データ
+				"groupName": groupName,
+				"time": time,
+				"id": id,
+			},
+      //受け取り成功時
+			success: function(){
+				console.log("recordResult")
+				alert('記録しました')
+				location.reload();
+			}
+		});
 	});
 
 	//結果画面にあるトップへボタンを押したとき

@@ -12,14 +12,9 @@ import (
 	//reflect.TypeOf(t)
 	"benchmarkserver/internal/ab"
 	"benchmarkserver/internal/record"
+	"benchmarkserver/internal/score"
 	"github.com/rs/xid"
 )
-
-// ajax戻り値のJSON用構造体
-type Param struct {
-	Time string
-	Msg  string
-}
 
 func main() {
 	// webフォルダにアクセスできるようにする
@@ -30,6 +25,7 @@ func main() {
 	//ルーティング設定 "/"というアクセスがきたら rootHandlerを呼び出す
 	http.HandleFunc("/", rootHandler)
 	http.HandleFunc("/measure", measureHandler)
+	http.HandleFunc("/record", recordHandler)
 
 	log.Println("Listening...")
 	// 3000ポートでサーバーを立ち上げる
@@ -49,6 +45,14 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// ajax戻り値のJSON用構造体
+type measureParam struct {
+	Time string
+	Msg  string
+	IsNewRecord bool
+	Id string
+}
+
 //フォームからの入力を処理 index.jsから受け取る
 func measureHandler(w http.ResponseWriter, r *http.Request) {
 
@@ -57,7 +61,7 @@ func measureHandler(w http.ResponseWriter, r *http.Request) {
 	defer logfile.Close()
 
 	//index.jsに返すJSONデータ変数
-	var ret Param
+	var ret measureParam
 	//POSTデータのフォームを解析
 	err := r.ParseForm()
 	if err != nil {
@@ -72,19 +76,42 @@ func measureHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("<Info> request URL: " + url + ", GroupName: " + groupName + ", id: " + guid.String())
 	fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05")+"<Info> request URL: "+url+", GroupName: "+groupName+", id: "+guid.String())
 
+	ret.IsNewRecord = false
+	ret.Id = guid.String()
+
 	//abコマンドで負荷をかける．計測時間を返す
 	//ret.Msg, ret.Time = ab.Ab(logfile, guid.String(), url)
 	ret.Msg, ret.Time = ab.Abtest(logfile, guid.String(), url)
 
-	//計算結果を記録する
+	//これまでの最高値を取り出す
 	if ret.Msg == "" {
-		ret.Msg = record.Record(logfile, guid.String(), ret.Time, groupName)
+		ret.IsNewRecord, ret.Msg = score.Score(logfile, guid.String(), ret.Time, groupName)
 	}
 
 	// 構造体をJSON文字列化する
 	jsonBytes, _ := json.Marshal(ret)
 	// index.jsに返す
 	fmt.Fprint(w, string(jsonBytes))
+}
+
+//score.csvに記録する
+func recordHandler(w http.ResponseWriter, r *http.Request) {
+
+	//ログファイルを開く
+	logfile := logfileOpen()
+	defer logfile.Close()
+
+	//POSTデータのフォームを解析
+	err := r.ParseForm()
+	if err != nil {
+		log.Println("<Debug> r.ParseForm : ", err)
+	}
+
+	groupName := r.Form["groupName"][0]
+	times := r.Form["time"][0]
+	id := r.Form["id"][0]
+
+	record.Record(logfile, id, times, groupName)
 }
 
 //ログファイルを開く，ログファイルをgithubにpushする

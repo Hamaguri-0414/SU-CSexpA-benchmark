@@ -11,9 +11,8 @@ import(
   "time"
 )
 
-func Record(logfile *os.File, id string, times string, groupName string) string {
+func Record(logfile *os.File, id string, times string, groupName string) {
 
-  msg := "" //返すメッセージ
   recordData := "" //書き込みデータ
   doUpdate := false //記録が更新したかどうか
 
@@ -39,11 +38,9 @@ func Record(logfile *os.File, id string, times string, groupName string) string 
       highData, _ := strconv.ParseFloat(line[1], 64)
       if nowData > highData {
         recordData += times + "\n"
-        msg = "記録更新！！！"
         doUpdate = true
       }else{
         recordData += line[1] + "\n"
-        msg = "記録更新ならず，現在の最高値：" + line[1]
       }
     }else{
       recordData += line[1] + "\n"
@@ -66,12 +63,6 @@ func Record(logfile *os.File, id string, times string, groupName string) string 
   if doUpdate {
     csvPush(logfile, id, groupName)
   }
-
-  log.Println("<Info> id: " + id + ", record msg: " + msg)
-  fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + "<Info> id: " + id + ", record msg: " + msg)
-
-  return msg
-
 }
 
 func csvPush(logfile *os.File, id string, groupName string){
