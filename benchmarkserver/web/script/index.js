@@ -38,7 +38,12 @@ $(document).ready(function(){
 
 			}
 		});
+	});
 
+	//記録ボタンクリックアクション
+	$('#recordBtn').on('click', function(){
+		alert('記録しました')
+		location.reload();
 	});
 
 	//結果画面にあるトップへボタンを押したとき
@@ -47,5 +52,4 @@ $(document).ready(function(){
 		$('#measureResult').toggle();
 		$('#topPage').toggle();
 	});
-
 });
