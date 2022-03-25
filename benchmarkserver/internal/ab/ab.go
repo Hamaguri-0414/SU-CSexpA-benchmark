@@ -30,8 +30,8 @@ func Ab(logfile *os.File, id string, url string) (string, string) {
     //-c -nを変更する
     out, err := exec.Command("ab", "-c", "1", "-n", "1", url + "?tag=" + tag).Output()
     if err != nil {
-      log.Println(fmt.Sprintf("<Error> id: " + id + " execCmd(ab -c 1 -n 1 " + url + "?tag=" + tag + ")" , err))
-      fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + fmt.Sprintf("<Error> id: " + id + " execCmd(ab -c 1 -n 1 " + url + "?tag=" + tag + ")" , err))
+      log.Println(fmt.Sprintf("<Error> id: " + id + " execCmd(ab -c 1 -n 10 -t 100 " + url + "?tag=" + tag + ")" , err))
+      fmt.Fprintln(logfile, time.Now().Format("2006/01/02 15:04:05") + fmt.Sprintf("<Error> id: " + id + " execCmd(ab -c 1 -n 10 -t 100" + url + "?tag=" + tag + ")" , err))
       return "URLが不明です", "0.00"
     }
 
